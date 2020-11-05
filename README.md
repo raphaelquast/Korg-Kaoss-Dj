@@ -28,7 +28,9 @@ It is intended to be used as follows:
   
   - browse scenes, activate track 1 or 2
 
+# Installation
 
+To use this script, simply copy the contents into a folder named "KorgKaossDJ" within the MIDI Remote Scripts folder of Ableton Live  (located at `..install-dir..\Resources\MIDI Remote Scripts`) and then select the **KorgKaossDJ** device as control-surface in the MIDI-tab of the preferences. (make sure to activate both `track`and `remote` for this device!)
 
 # Button assignments:
 
