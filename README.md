@@ -5,9 +5,10 @@ Use it, modify it, do whatever you want with it!  (any comments and suggestions 
 
 ## ... it works like this:
 
-- the **first track** is assigned to the **"left-side"** of the controller, the **second track** is assigned to the **"right-side"** of the controller
+- the **first track** is assigned to the **"left-side"** of the controller,  
+  the **second track** is assigned to the **"right-side"** of the controller
 
-- ALL controls will always target the **currently playing** scene of the associated tracks! 
+- ALL controls will always target the **currently playing** scene of the associated tracks!  
   (they do **NOT** follow the selected track)
   
   - why? because in this way you can select another track and use a second midi-controller to do fancy stuff on it while still being able to control the basic elements of the first 2 tracks from the DJ controller.
