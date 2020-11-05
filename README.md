@@ -1,8 +1,38 @@
-## ## GENERAL
+# General
 
-- left controls interact with the first track, right controls interact with the second track
+This is a **MIDI Remote Script** for **Ableton Live 10** and the **Korg Kaoss DJ** controller.
 
-## Loop buttons
+It is intended to be used as follows:
+
+- the **first track** is assigned to the **"left-side"** of the controller, the **second track** is assigned to the **"right-side"** of the controller
+
+- ALL controls will always only target the associated tracks!  (they do NOT follow the selected track)
+  
+  - why? because in this way you can select another track and use a second midi-controller to do fancy stuff on it while still being able to control the basic elements of the first 2 tracks from the DJ controller. 
+
+#### At the moment, the functionality includes:
+
+- Basic track-control 
+  
+  - start-stop, control volume, move playing position, move start marker
+  
+  - toggle pre-listen state, change global set bpm
+
+- Looping   
+  
+  - toggle loop, change length, change position
+  
+  - activate loop at current playing position
+
+- Basic navigation 
+  
+  - browse scenes, activate track 1 or 2
+
+
+
+# Button assignments:
+
+# Loop buttons (loop-light on)
 
 | <mark>LEFT</mark>           | <mark>MIDDLE</mark>                                            | <mark>RIGHT</mark>          |
 |:---------------------------:|:--------------------------------------------------------------:|:---------------------------:|
@@ -10,7 +40,7 @@
 |                             | <mark>**WITH SHIFT**</mark>                                    |                             |
 | reduce loop length by 1 bpm | start a loop with 32 bpm length at the  current track position | reduce loop length by 4 bpm |
 
-## Hot Cue buttons
+## Hot Cue buttons (HotCue light on)
 
 | <mark>LEFT</mark>             | <mark>MIDDLE</mark>         | <mark>RIGHT</mark>             |
 |:-----------------------------:|:---------------------------:|:------------------------------:|
@@ -28,7 +58,7 @@
 
 - adjust the volume of the left/right track
 
-## Pre-listen button
+## Pre-listen buttons
 
 - toggle pre-listen mode of left/right track
 
@@ -38,7 +68,7 @@
   
   - you must activate pre-listen mode (instead of solo-mode) in the main-out track
 
-## Jogwheel
+## Jog wheels
 
 | <mark><u>LOOPING OFF</u></mark>    | <mark>NORMAL</mark>                         | <mark>WITH SHIFT</mark>                |
 | ---------------------------------- | ------------------------------------------- | -------------------------------------- |
@@ -52,7 +82,7 @@
 
 - scrobbling a track will start playback!
 
-## Center - buttons & knobs
+## Further buttons & knobs (located in the center)
 
 | <mark>A button</mark>        | activate (e.g. focus) the left track  |
 |:----------------------------:|:-------------------------------------:|
