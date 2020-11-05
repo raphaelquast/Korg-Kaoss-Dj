@@ -64,6 +64,10 @@ To use this script, simply copy the contents into a folder named "KorgKaossDJ" w
 
 - adjust the volume of the left/right track
 
+## Gain knobs
+
+- adjust "**Send A**" (e.g. the first return track) of the left/right track
+
 ## Pre-listen buttons
 
 - toggle pre-listen mode of left/right track

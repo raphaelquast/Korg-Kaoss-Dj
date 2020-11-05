@@ -122,8 +122,16 @@ class KorgKaossDJ(ControlSurface):
 
 
         # ENCODER
+
+        # browser
         self._center_browse_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_CENTER, 30,
                                                      Live.MidiMap.MapMode.relative_smooth_two_compliment)
+        # gain left
+        self._left_gain_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_LEFT, 26,
+                                                     Live.MidiMap.MapMode.absolute)
+        # gain right
+        self._right_gain_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_RIGHT, 26,
+                                                     Live.MidiMap.MapMode.absolute)
 
 
         # middle light off -> does not send on-off messages!
@@ -310,8 +318,13 @@ class KorgKaossDJ(ControlSurface):
 
 
 
+        self._channelstrip_left = ChannelStripComponent()
+        self._channelstrip_left.set_track(self.song().tracks[LEFT_STRIP_ID])
+        self._channelstrip_left.set_send_controls([self._left_gain_encoder])
 
-
+        self._channelstrip_right = ChannelStripComponent()
+        self._channelstrip_right.set_track(self.song().tracks[RIGHT_STRIP_ID])
+        self._channelstrip_right.set_send_controls([self._right_gain_encoder])
 
 
 
