@@ -3,7 +3,7 @@
 This is a **MIDI Remote Script** for **Ableton Live 10** and the **Korg Kaoss DJ** controller.
 Use it, modify it, do whatever you want with it!  (any comments and suggestions are highly welcome!)
 
-#### ... it works like this:
+## ... it works like this:
 
 - the **first track** is assigned to the **"left-side"** of the controller, the **second track** is assigned to the **"right-side"** of the controller
 
@@ -11,8 +11,6 @@ Use it, modify it, do whatever you want with it!  (any comments and suggestions 
   (they do **NOT** follow the selected track)
   
   - why? because in this way you can select another track and use a second midi-controller to do fancy stuff on it while still being able to control the basic elements of the first 2 tracks from the DJ controller.
-
-
 
 - **Basic track-control**
   
@@ -93,8 +91,6 @@ To use this script, simply copy the contents into a folder named "KorgKaossDJ" w
 | <mark>**B button**</mark>    | activate (e.g. focus) the right track |
 | <mark>**Browse knob**</mark> | move clip-selection up-down           |
 
-
-
 ## ... THANKS to
 
 - Julien Bayle for the awesome [PythonLiveAPI_documentation](https://julienbayle.studio/PythonLiveAPI_documentation/) and some more info's [here](https://julienbayle.studio/ableton-live-midi-remote-scripts/)
@@ -104,5 +100,3 @@ To use this script, simply copy the contents into a folder named "KorgKaossDJ" w
 - azuki for introducing the basics here: [Writing Custom Control Surfaces for Ableton](https://blog.azuki.vip/ableton-midi/)
 
 - willrjmarshall for his ideas within the [AbletonDJTemplate](https://github.com/willrjmarshall/AbletonDJTemplateUnsupported)
-
-
