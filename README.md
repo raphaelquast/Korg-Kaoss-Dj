@@ -32,7 +32,7 @@ It is intended to be used as follows:
 
 # Button assignments:
 
-# Loop buttons (loop-light on)
+## Loop buttons (loop-light on)
 
 | <mark>LEFT</mark>           | <mark>MIDDLE</mark>                                            | <mark>RIGHT</mark>          |
 |:---------------------------:|:--------------------------------------------------------------:|:---------------------------:|
