@@ -159,10 +159,19 @@ class KorgKaossDJ(ControlSurface):
 
 
         # set looping function ality to Loop- and HotCue buttons
-        self._looper_left = LooperComponent(self, assign_track=0, move_increment=4, increase_factor=(0, 2), decrease_factor=(0, 2), start_loop_length = 32)
-        self._looper_left_fine = LooperComponent(self, assign_track=0, move_increment=1, increase_factor=(1, 1), decrease_factor=(1, 1), start_loop_length = 32)
-        self._looper_right = LooperComponent(self, assign_track=1, move_increment=4, increase_factor=(0, 2), decrease_factor=(0, 2), start_loop_length = 32)
-        self._looper_right_fine = LooperComponent(self, assign_track=1, move_increment=1, increase_factor=(1, 1), decrease_factor=(1, 1), start_loop_length = 32)
+        self._looper_left = LooperComponent(self,
+                                            assign_track=0, move_increment=4,
+                                            increase_factor=(0, 2), decrease_factor=(0, 2),
+                                            start_loop_length = 32, quantize_start=4)
+        self._looper_left_fine = LooperComponent(self, assign_track=0, move_increment=1,
+                                                 increase_factor=(1, 1), decrease_factor=(1, 1),
+                                                 start_loop_length = 16, quantize_start=1)
+        self._looper_right = LooperComponent(self, assign_track=1, move_increment=4,
+                                             increase_factor=(0, 2), decrease_factor=(0, 2),
+                                             start_loop_length = 32, quantize_start=1)
+        self._looper_right_fine = LooperComponent(self, assign_track=1, move_increment=4,
+                                                  increase_factor=(1, 1), decrease_factor=(1, 1),
+                                                  start_loop_length = 16, quantize_start=1)
 
         # loop_assignments = ['decrease', 'toggle', 'increase', 'move_left', 'start', 'move_right']
 
@@ -180,31 +189,39 @@ class KorgKaossDJ(ControlSurface):
 
 
         self._looper_left.set_loop_decrease_button(self._left_loop_1)
-        self._looper_left.set_loop_toggle_button(self._left_loop_2)
+        self._looper_left.set_loop_start_button(self._left_loop_2)
         self._looper_left.set_loop_increase_button(self._left_loop_3)
 
-        self._looper_left_fine.set_loop_decrease_button(self._left_loop_1_shift)
-        self._looper_left_fine.set_loop_start_button(self._left_loop_2_shift)
-        self._looper_left_fine.set_loop_increase_button(self._left_loop_3_shift)
+        self._looper_left.set_loop_move_left_button(self._left_loop_1_shift)
+        self._looper_left.set_loop_toggle_button(self._left_loop_2_shift)
+        self._looper_left.set_loop_move_right_button(self._left_loop_3_shift)
 
-        self._looper_left.set_loop_move_left_button(self._left_hotcue_1)
-        self._looper_left.set_loop_move_right_button(self._left_hotcue_3)
+
+        self._looper_left_fine.set_loop_decrease_button(self._left_hotcue_1)
+        self._looper_left_fine.set_loop_start_button(self._left_hotcue_2)
+        self._looper_left_fine.set_loop_increase_button(self._left_hotcue_3)
+
         self._looper_left_fine.set_loop_move_left_button(self._left_hotcue_1_shift)
+        self._looper_left_fine.set_loop_toggle_button(self._left_hotcue_2_shift)
         self._looper_left_fine.set_loop_move_right_button(self._left_hotcue_3_shift)
 
 
 
         self._looper_right.set_loop_decrease_button(self._right_loop_1)
-        self._looper_right.set_loop_toggle_button(self._right_loop_2)
+        self._looper_right.set_loop_start_button(self._right_loop_2)
         self._looper_right.set_loop_increase_button(self._right_loop_3)
 
-        self._looper_right_fine.set_loop_decrease_button(self._right_loop_1_shift)
-        self._looper_right_fine.set_loop_start_button(self._right_loop_2_shift)
-        self._looper_right_fine.set_loop_increase_button(self._right_loop_3_shift)
+        self._looper_right.set_loop_move_left_button(self._right_loop_1_shift)
+        self._looper_right.set_loop_toggle_button(self._right_loop_2_shift)
+        self._looper_right.set_loop_move_right_button(self._right_loop_3_shift)
 
-        self._looper_right.set_loop_move_left_button(self._right_hotcue_1)
-        self._looper_right.set_loop_move_right_button(self._right_hotcue_3)
+
+        self._looper_right_fine.set_loop_decrease_button(self._right_hotcue_1)
+        self._looper_right_fine.set_loop_start_button(self._right_hotcue_2)
+        self._looper_right_fine.set_loop_increase_button(self._right_hotcue_3)
+
         self._looper_right_fine.set_loop_move_left_button(self._right_hotcue_1_shift)
+        self._looper_right_fine.set_loop_toggle_button(self._right_hotcue_2_shift)
         self._looper_right_fine.set_loop_move_right_button(self._right_hotcue_3_shift)
 
 
@@ -224,7 +241,6 @@ class KorgKaossDJ(ControlSurface):
 
 
 
-
     def _setup_transport_control(self):
         """set up the sliders"""
 
@@ -232,11 +248,9 @@ class KorgKaossDJ(ControlSurface):
                                              name=u'Transport',
                                              is_enabled=False)
 
-        # set tempo-fader
+        #set tempo-fader
         self._transport.set_tempo_control(self._left_tempo_fader,
                                           fine_control=self._right_tempo_fader) #(control, fine_control)
-
-        self._transport.set_song_position_control(self._left_jogwheel_encoder)
 
         self._transport.set_enabled(True)
 

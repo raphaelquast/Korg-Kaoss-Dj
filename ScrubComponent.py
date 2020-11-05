@@ -1,8 +1,4 @@
-from _Framework.ButtonElement import ButtonElement  # added
-from _Framework.EncoderElement import EncoderElement  # added
-
 from functools import partial
-
 
 
 class ScrubComponent():
@@ -20,7 +16,10 @@ class ScrubComponent():
 
         self.scrub_position = 0
 
-        buttonnames = ['_move_position', '_move_position_coarse', '_scrub_position', '_scrub_position_coarse', '_scrub_on_off']
+
+        buttonnames = ['_move_position', '_move_position_coarse',
+                       '_scrub_position', '_scrub_position_coarse',
+                       '_scrub_on_off']
 
         # define setter functions "set_button()" for all required buttons
         #  and assign the listeners "button_listener(value)" accordingly
@@ -147,3 +146,4 @@ class ScrubComponent():
         #                           str(track == self._parent.song().view.selected_track))
 
         return playing_clip
+

@@ -11,9 +11,3 @@ class TransportComponent(TransportComponentBase):
     def __init__(self, _parent, *a, **k):
         super(TransportComponent, self).__init__(*a, **k)
         self._parent = _parent
-
-
-    # don't raise an not-imported error in here... not sure why this is necessary...
-    @subject_slot(u'value')
-    def _song_position_value(self, value):
-        pass

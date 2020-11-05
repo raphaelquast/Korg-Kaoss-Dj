@@ -24,6 +24,9 @@ Use it, modify it, do whatever you want with it!  (any comments and suggestions 
   - toggle loop, change length, change position
   
   - activate loop at current playing position
+  
+  - indicate if a loop is active with the center-led  
+    (targets playing track or if none is playing the selected track)
 
 - **Basic navigation**
   
@@ -37,19 +40,19 @@ To use this script, simply copy the contents into a folder named "KorgKaossDJ" w
 
 ## Loop buttons (loop-light on)
 
-| <mark>LEFT</mark>           | <mark>MIDDLE</mark>                                            | <mark>RIGHT</mark>          |
-|:---------------------------:|:--------------------------------------------------------------:|:---------------------------:|
-| half loop length            | toggle loop                                                    | double loop length          |
-|                             | <mark>**WITH SHIFT**</mark>                                    |                             |
-| reduce loop length by 1 bpm | start a loop with 32 bpm length at the  current track position | reduce loop length by 4 bpm |
+| <mark>LEFT</mark>        | <mark>MIDDLE</mark>                            | <mark>RIGHT</mark>        |
+|:------------------------:|:----------------------------------------------:|:-------------------------:|
+| half loop length         | toggle loop                                    | double loop length        |
+|                          | <mark>**WITH SHIFT**</mark>                    |                           |
+| move loop left (4 beats) | start a 32 beats loop at the  playing position | move loop right (4 beats) |
 
 ## Hot Cue buttons (HotCue light on)
 
-| <mark>LEFT</mark>             | <mark>MIDDLE</mark>         | <mark>RIGHT</mark>             |
-|:-----------------------------:|:---------------------------:|:------------------------------:|
-| move loop left (coarse scale) |                             | move loop right (coarse scale) |
-|                               | **<mark>WITH SHIFT</mark>** |                                |
-| move loop left (fine scale)   |                             | move loop right (fine scale)   |
+| <mark>LEFT</mark>            | <mark>MIDDLE</mark>                            | <mark>RIGHT</mark>           |
+|:----------------------------:|:----------------------------------------------:|:----------------------------:|
+| reduce loop length by 1 beat | toggle loop                                    | extend loop length by 1 beat |
+|                              | **<mark>WITH SHIFT</mark>**                    |                              |
+| move loop left (1 beat)      | start a 16 beats loop at the  playing position | move loop right (1 beat)     |
 
 ## Tempo fader
 
