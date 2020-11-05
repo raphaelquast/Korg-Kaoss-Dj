@@ -101,4 +101,6 @@ To use this script, simply copy the contents into a folder named "KorgKaossDJ" w
 
 - azuki for introducing the basics here: [Writing Custom Control Surfaces for Ableton](https://blog.azuki.vip/ableton-midi/)
 
+- willrjmarshall for his ideas within the [AbletonDJTemplate](https://github.com/willrjmarshall/AbletonDJTemplateUnsupported)
+
 
