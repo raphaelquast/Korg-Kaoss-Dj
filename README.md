@@ -1,30 +1,32 @@
 # General
 
 This is a **MIDI Remote Script** for **Ableton Live 10** and the **Korg Kaoss DJ** controller.
+Use it, modify it, do whatever you want with it!  (any comments and suggestions are highly welcome!)
 
-It is intended to be used as follows:
+#### ... it works like this:
 
 - the **first track** is assigned to the **"left-side"** of the controller, the **second track** is assigned to the **"right-side"** of the controller
 
-- ALL controls will always only target the associated tracks!  (they do NOT follow the selected track)
+- ALL controls will always target the **currently playing** scene of the associated tracks! 
+  (they do **NOT** follow the selected track)
   
-  - why? because in this way you can select another track and use a second midi-controller to do fancy stuff on it while still being able to control the basic elements of the first 2 tracks from the DJ controller. 
+  - why? because in this way you can select another track and use a second midi-controller to do fancy stuff on it while still being able to control the basic elements of the first 2 tracks from the DJ controller.
 
-#### At the moment, the functionality includes:
 
-- Basic track-control 
+
+- **Basic track-control**
   
   - start-stop, control volume, move playing position, move start marker
   
   - toggle pre-listen state, change global set bpm
 
-- Looping   
+- **Looping**
   
   - toggle loop, change length, change position
   
   - activate loop at current playing position
 
-- Basic navigation 
+- **Basic navigation**
   
   - browse scenes, activate track 1 or 2
 
