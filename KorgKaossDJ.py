@@ -171,13 +171,14 @@ class KorgKaossDJ(ControlSurface):
                                             assign_track=0, move_increment=4,
                                             increase_factor=(0, 2), decrease_factor=(0, 2),
                                             start_loop_length = 32, quantize_start=4)
-        self._looper_left_fine = LooperComponent(self, assign_track=0, move_increment=1,
-                                                 increase_factor=(1, 1), decrease_factor=(1, 1),
-                                                 start_loop_length = 16, quantize_start=1)
         self._looper_right = LooperComponent(self, assign_track=1, move_increment=4,
                                              increase_factor=(0, 2), decrease_factor=(0, 2),
                                              start_loop_length = 32, quantize_start=1)
-        self._looper_right_fine = LooperComponent(self, assign_track=1, move_increment=4,
+
+        self._looper_left_fine = LooperComponent(self, assign_track=0, move_increment=1,
+                                                 increase_factor=(1, 1), decrease_factor=(1, 1),
+                                                 start_loop_length = 16, quantize_start=1)
+        self._looper_right_fine = LooperComponent(self, assign_track=1, move_increment=1,
                                                   increase_factor=(1, 1), decrease_factor=(1, 1),
                                                   start_loop_length = 16, quantize_start=1)
 
