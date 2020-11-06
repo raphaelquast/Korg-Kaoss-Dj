@@ -2,47 +2,33 @@ from _Framework.ButtonElement import ButtonElement  # added
 from _Framework.EncoderElement import EncoderElement  # added
 
 from functools import partial
+from BaseComponent import BaseComponent
 
 
-
-class LooperComponent():
+class LooperComponent(BaseComponent):
     'Handles looping controls'
     __module__ = __name__
 
     def __init__(self, parent, assign_track=0, move_increment=4,
                  increase_factor=(0, 2), decrease_factor=(0, 2),
                  start_loop_length = 32, quantize_start=1):
-        self._parent = parent
-        self._start_loop_length = start_loop_length
 
-        # track-index to which the controls will be sensitive
-        self._assign_track = assign_track
+        buttonnames = ['_loop_toggle', '_loop_start',
+                       '_loop_increase', '_loop_decrease',
+                       '_loop_move_left', '_loop_move_right']
+
+        super(LooperComponent, self).__init__(parent, buttonnames, assign_track)
+
+        # the initial length of the loop
+        self._start_loop_length = start_loop_length
         # the move increment (in beats)
         self._move_increment = move_increment
         # the increase factors   length = A + B * length
         self._increase_A, self._increase_B = increase_factor
         # the decrease factors   length = length/B - A
         self._decrease_A, self._decrease_B = decrease_factor
-
+        # the quantization factor for starting a loop at the current playing position
         self._quantize_start = quantize_start
-
-        buttonnames = ['_loop_toggle', '_loop_start',
-                       '_loop_increase', '_loop_decrease',
-                       '_loop_move_left', '_loop_move_right']
-
-        # define setter functions "set_button()" for all required buttons
-        #  and assign the listeners "button_listener(value)" accordingly
-        for name in buttonnames:
-            buttonname = name + '_button'
-            listener = name + '_listener'
-            setter = 'set' + buttonname
-
-            # set all buttons to None
-            setattr(self, buttonname, None)
-            # define setter functions
-            setattr(self, setter,
-                    partial(self._set_a_button, name=buttonname,
-                            listener=listener))
 
 
         # update lights if the playing clip changed
@@ -50,26 +36,6 @@ class LooperComponent():
 
         # update lights on scene selection change (necessary if track is not playing)
         self._parent.song().view.add_selected_scene_listener(self._selected_scene_listener)
-
-
-    def _set_a_button(self, button, name, listener):
-        '''
-        a generic setter function for the buttons
-        '''
-        assert ((button is None) or (isinstance(button, ButtonElement)
-                                      and button.is_momentary()))
-        # only if button is not yet assigned
-        if getattr(self, name) != button:
-            # remove existing listener
-            if listener is not None and getattr(self, name) is not None:
-                getattr(self, name
-                        ).remove_value_listener(getattr(self, listener))
-
-            # set the button
-            setattr(self, name, button)
-            if listener is not None and getattr(self, name) is not None:
-                getattr(self, name
-                        ).add_value_listener(getattr(self, listener))
 
 
     def _loop_toggle_listener(self, value):
@@ -153,43 +119,6 @@ class LooperComponent():
                                               direction * self._move_increment)
                 current_clip.looping = 0
 
-    def get_current_clip(self):
-        if self._assign_track == -1:
-            return self.get_selected_clip()
-        else:
-
-            return self.get_playing_clip()
-
-    def get_selected_clip(self):
-        '''find the currently selected clip'''
-        if (self._parent.song().view.highlighted_clip_slot is not None):
-            clip_slot = self._parent.song().view.highlighted_clip_slot
-            if clip_slot.has_clip:
-                _current_clip = clip_slot.clip
-            else:
-                _current_clip = None
-        else:
-            _current_clip = None
-
-        return _current_clip
-
-    def get_playing_clip(self):
-        '''find the currently playing clip of the assigned track-number'''
-        track = self._parent.song().tracks[self._assign_track]
-        playing_clip_idx = track.playing_slot_index
-
-
-        if playing_clip_idx >= 0:
-            playing_clip = track.clip_slots[playing_clip_idx].clip
-        else:
-            if track == self._parent.song().view.selected_track:
-                playing_clip = self.get_selected_clip()
-            else:
-                playing_clip = None
-
-        return playing_clip
-
-
 
     def _playing_slot_index_listener(self):
         clip = self.get_playing_clip()
@@ -208,13 +137,14 @@ class LooperComponent():
     def _playing_position_listener(self):
         clip = self.get_playing_clip()
 
-        if (clip.is_playing or clip.is_triggered) and clip.looping:
-            if round(clip.playing_position*10%10) > 5:
-                self._loop_start_button.turn_on()
+        if clip is not None:
+            if (clip.is_playing or clip.is_triggered) and clip.looping:
+                if round(clip.playing_position*10%10) > 5:
+                    self._loop_start_button.turn_on()
+                else:
+                    self._loop_start_button.turn_off()
             else:
                 self._loop_start_button.turn_off()
-        else:
-            self._loop_start_button.turn_off()
 
 
     def _selected_scene_listener(self):
@@ -236,5 +166,4 @@ class LooperComponent():
             self._loop_start_button.turn_on()
         else:
             self._loop_start_button.turn_off()
-
 

@@ -40,7 +40,7 @@ from _Arturia.SessionComponent import SessionComponent
 
 #from _Framework.TransportComponent import TransportComponent # Class encapsulating all functions in Live's transport section
 from TransportComponent import TransportComponent
-
+from FXComponent import FXComponent
 
 """ Here we define some global variables """
 CHANNEL_CENTER = 6
@@ -65,21 +65,17 @@ class KorgKaossDJ(ControlSurface):
         self._current_clip = None
 
         with self.component_guard():
-
-            #self._set_suppress_rebuild_requests(True) # Turn off rebuild MIDI map until after we're done setting up
             self._create_controls()
-            self._create_device()
             self._setup_transport_control() # Run the transport setup part of the script
+            self._setup_loop_control()
+            self._setup_scrub_control()
+            self._setup_fx_control()
             self._setup_mixer_control() # Setup the mixer object
             self._setup_session_control()  # Setup the session object
-            #self._set_suppress_rebuild_requests(False) #Turn rebuild back on, now that we're done setting up
-
-
-
 
     def _create_controls(self):
 
-        # SLIDER
+        # ------ SLIDER
         self._crossfader_slider = SliderElement(MIDI_CC_TYPE, CHANNEL_CENTER, 23)
 
         self._left_volume_slider = SliderElement(MIDI_CC_TYPE, CHANNEL_LEFT, 24)
@@ -88,7 +84,7 @@ class KorgKaossDJ(ControlSurface):
         self._left_tempo_fader = SliderElement(MIDI_CC_TYPE, CHANNEL_LEFT, 25)
         self._right_tempo_fader = SliderElement(MIDI_CC_TYPE, CHANNEL_RIGHT, 25)
 
-        # BUTTONS
+        # ------ BUTTONS
         self._left_play_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_LEFT, 27)
         self._right_play_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 27)
 
@@ -118,10 +114,7 @@ class KorgKaossDJ(ControlSurface):
                 setattr(self, side + '_hotcue_' + str(i + 1) + '_shift',
                         ButtonElement(True, MIDI_NOTE_TYPE, channel, 43 + i))
 
-
-
-
-        # ENCODER
+        # ------ ENCODER
 
         # browser
         self._center_browse_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_CENTER, 30,
@@ -132,7 +125,6 @@ class KorgKaossDJ(ControlSurface):
         # gain right
         self._right_gain_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_RIGHT, 26,
                                                      Live.MidiMap.MapMode.absolute)
-
 
         # middle light off -> does not send on-off messages!
         self._left_jogwheel_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_LEFT, 14,
@@ -145,7 +137,6 @@ class KorgKaossDJ(ControlSurface):
         self._right_jogwheel_encoder_shift = EncoderElement(MIDI_CC_TYPE, CHANNEL_RIGHT, 15,
                                                             Live.MidiMap.MapMode.relative_smooth_two_compliment)
 
-
         # middle light on  -> sends on-off message on channel 31!
         self._left_jogwheel_encoder_active = EncoderElement(MIDI_CC_TYPE, CHANNEL_LEFT, 16,
                                                      Live.MidiMap.MapMode.relative_smooth_two_compliment)
@@ -156,16 +147,25 @@ class KorgKaossDJ(ControlSurface):
         self._right_jogwheel_encoder_active_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 31)
 
 
+    	# FX touchpad (same for both channels so we need to read only one)
+        self._touchpad_x_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_LEFT, 12,
+                                                  Live.MidiMap.MapMode.absolute)
+        self._touchpad_y_encoder = EncoderElement(MIDI_CC_TYPE, CHANNEL_LEFT, 13,
+                                                  Live.MidiMap.MapMode.absolute)
+        self._touchpad_x_encoder_shift = EncoderElement(MIDI_CC_TYPE, CHANNEL_CENTER, 17,
+                                                  Live.MidiMap.MapMode.absolute)
+        self._touchpad_y_encoder_shift = EncoderElement(MIDI_CC_TYPE, CHANNEL_CENTER, 18,
+                                                  Live.MidiMap.MapMode.absolute)
 
-
+        # hi-mid-lo encoders
         _device_MSG_IDS = [27, 28, 29]
-
         self._device_encoders = ButtonMatrixElement(
             rows=[[EncoderElement(MIDI_CC_TYPE, CHANNEL_LEFT, MSG_ID, Live.MidiMap.MapMode.absolute) for MSG_ID in _device_MSG_IDS],
                   [EncoderElement(MIDI_CC_TYPE, CHANNEL_RIGHT, MSG_ID, Live.MidiMap.MapMode.absolute) for MSG_ID in _device_MSG_IDS]
                   ])
 
 
+    def _setup_loop_control(self):
         # set looping function ality to Loop- and HotCue buttons
         self._looper_left = LooperComponent(self,
                                             assign_track=0, move_increment=4,
@@ -182,71 +182,68 @@ class KorgKaossDJ(ControlSurface):
                                                   increase_factor=(1, 1), decrease_factor=(1, 1),
                                                   start_loop_length = 16, quantize_start=1)
 
-        # loop_assignments = ['decrease', 'toggle', 'increase', 'move_left', 'start', 'move_right']
-
-        # for looper, looperbuttonname in zip(
-        #         [self._looper_left, self._looper_left_fine,
-        #          self._looper_right, self._looper_right_fine],
-        #         ['_left_loop_', '_left_hotcue_',
-        #          '_right_loop_', '_right_hotcue_']):
-
-        #     looperbuttons = [getattr(self, looperbuttonname + str(i)) for i in [1, 2, 3]] +\
-        #                     [getattr(self, looperbuttonname + str(i) + '_shift') for i in [1, 2, 3]]
-
-        #     for name, button in zip(loop_assignments, looperbuttons):
-        #         getattr(looper, 'set_loop_' + name + '_button')(button)
-
 
         self._looper_left.set_loop_decrease_button(self._left_loop_1)
         self._looper_left.set_loop_start_button(self._left_loop_2)
         self._looper_left.set_loop_increase_button(self._left_loop_3)
-
         self._looper_left.set_loop_move_left_button(self._left_loop_1_shift)
         self._looper_left.set_loop_toggle_button(self._left_loop_2_shift)
         self._looper_left.set_loop_move_right_button(self._left_loop_3_shift)
 
-
         self._looper_left_fine.set_loop_decrease_button(self._left_hotcue_1)
         self._looper_left_fine.set_loop_start_button(self._left_hotcue_2)
         self._looper_left_fine.set_loop_increase_button(self._left_hotcue_3)
-
         self._looper_left_fine.set_loop_move_left_button(self._left_hotcue_1_shift)
         self._looper_left_fine.set_loop_toggle_button(self._left_hotcue_2_shift)
         self._looper_left_fine.set_loop_move_right_button(self._left_hotcue_3_shift)
 
 
-
         self._looper_right.set_loop_decrease_button(self._right_loop_1)
         self._looper_right.set_loop_start_button(self._right_loop_2)
         self._looper_right.set_loop_increase_button(self._right_loop_3)
-
         self._looper_right.set_loop_move_left_button(self._right_loop_1_shift)
         self._looper_right.set_loop_toggle_button(self._right_loop_2_shift)
         self._looper_right.set_loop_move_right_button(self._right_loop_3_shift)
 
-
         self._looper_right_fine.set_loop_decrease_button(self._right_hotcue_1)
         self._looper_right_fine.set_loop_start_button(self._right_hotcue_2)
         self._looper_right_fine.set_loop_increase_button(self._right_hotcue_3)
-
         self._looper_right_fine.set_loop_move_left_button(self._right_hotcue_1_shift)
         self._looper_right_fine.set_loop_toggle_button(self._right_hotcue_2_shift)
         self._looper_right_fine.set_loop_move_right_button(self._right_hotcue_3_shift)
 
 
+    def _setup_scrub_control(self):
+        self._scrub_left = ScrubComponent(self, assign_track=LEFT_STRIP_ID, increment_scrub=1, increment_fine=0.1)
+        self._scrub_right = ScrubComponent(self, assign_track=RIGHT_STRIP_ID, increment_scrub=1, increment_fine=0.1)
 
-        self._scrub_left = ScrubComponent(self, assign_track=0, increment_scrub=1, increment_fine=0.1)
         self._scrub_left.set_move_position_button(self._left_jogwheel_encoder)
         self._scrub_left.set_move_position_coarse_button(self._left_jogwheel_encoder_shift)
         self._scrub_left.set_scrub_position_button(self._left_jogwheel_encoder_active)
         self._scrub_left.set_scrub_on_off_button(self._left_jogwheel_encoder_active_button)
 
-        self._scrub_right = ScrubComponent(self, assign_track=1, increment_scrub=1, increment_fine=0.1)
         self._scrub_right.set_move_position_button(self._right_jogwheel_encoder)
         self._scrub_right.set_move_position_coarse_button(self._right_jogwheel_encoder_shift)
         self._scrub_right.set_scrub_position_button(self._right_jogwheel_encoder_active)
         self._scrub_right.set_scrub_on_off_button(self._right_jogwheel_encoder_active_button)
 
+
+    def _setup_fx_control(self):
+        self._fx_left = FXComponent(self, assign_track=LEFT_STRIP_ID)
+        self._fx_left.set_touchpad_x_button(self._touchpad_x_encoder)
+        self._fx_left.set_touchpad_y_button(self._touchpad_y_encoder)
+        self._fx_left.set_touchpad_x_shift_button(self._touchpad_x_encoder_shift)
+        self._fx_left.set_touchpad_y_shift_button(self._touchpad_y_encoder_shift)
+        self._fx_left.set_fx_on_off_button(self._left_fx_button)
+        self._fx_left.set_gain_encoder_button(self._left_gain_encoder)
+
+        self._fx_right = FXComponent(self, assign_track=RIGHT_STRIP_ID)
+        self._fx_right.set_touchpad_x_button(self._touchpad_x_encoder)
+        self._fx_right.set_touchpad_y_button(self._touchpad_y_encoder)
+        self._fx_right.set_touchpad_x_shift_button(self._touchpad_x_encoder_shift)
+        self._fx_right.set_touchpad_y_shift_button(self._touchpad_y_encoder_shift)
+        self._fx_right.set_fx_on_off_button(self._right_fx_button)
+        self._fx_right.set_gain_encoder_button(self._right_gain_encoder)
 
 
 
@@ -303,37 +300,25 @@ class KorgKaossDJ(ControlSurface):
         self._session.set_enabled(True)
 
 
-    def _create_device(self):
-        self._device = DeviceComponent(name=u'Device',
-                                            is_enabled=False,
-                                            layer=Layer(parameter_controls=self._device_encoders),
-                                            device_selection_follows_track_selection=True)
+        # ----------- add functionality to turn playing-light on-off
+        def update_lights(track, button):
+            playing_clip_idx = track.playing_slot_index
+            if playing_clip_idx >= 0:
+                button.turn_on()
+            else:
+                button.turn_off()
 
+        def update_playlight_left():
+            track = self.song().tracks[LEFT_STRIP_ID]
+            update_lights(track, self._left_play_button)
+        def update_playlight_right():
+            track = self.song().tracks[RIGHT_STRIP_ID]
+            update_lights(track, self._right_play_button)
 
-        self._device.set_enabled(True)
-        self.set_device_component(self._device)
-
-
-
-
-
-
-
-        self._channelstrip_left = ChannelStripComponent()
-        self._channelstrip_left.set_track(self.song().tracks[LEFT_STRIP_ID])
-        self._channelstrip_left.set_send_controls([self._left_gain_encoder])
-
-        self._channelstrip_right = ChannelStripComponent()
-        self._channelstrip_right.set_track(self.song().tracks[RIGHT_STRIP_ID])
-        self._channelstrip_right.set_send_controls([self._right_gain_encoder])
-
-
-
-
-
-
-
-
-
-
+        self.song().tracks[LEFT_STRIP_ID].add_playing_slot_index_listener(update_playlight_left)
+        self.song().tracks[RIGHT_STRIP_ID].add_playing_slot_index_listener(update_playlight_right)
+        # override the selected scene change behaviour of the playing light
+        self.song().view.add_selected_scene_listener(update_playlight_left)
+        self.song().view.add_selected_scene_listener(update_playlight_right)
+        # ---------
 

@@ -18,6 +18,8 @@ Use it, modify it, do whatever you want with it!  (any comments and suggestions 
   - start-stop, control volume, move playing position, move start marker
   
   - toggle pre-listen state, change global set bpm
+  
+  - adjust send-controls
 
 - **Looping**
   
@@ -68,15 +70,25 @@ To use this script, simply copy the contents into a folder named "KorgKaossDJ" w
 
 - adjust "**Send A**" (e.g. the first return track) of the left/right track
 
+## FX touchpad
+
+The touchpad-controls are sensitive ONLY if the **FX-button** of the corresponding track is **ON** !
+(you can adjust the send-slider of track 1, track 2 or both together)
+
+|                                | <mark>**x-direction**</mark> | <mark>**y-direction**</mark> |
+| ------------------------------ | ---------------------------- | ---------------------------- |
+| <mark>**without shift**</mark> | adjust **Send B**            | adjust **Send C**            |
+| <mark>**with shift**</mark>    | adjust **Send D**            | adjust **Send E**            |
+
 ## Pre-listen buttons
 
 - toggle pre-listen mode of left/right track
 
 - NOTE:
   
-  - you must set the cue-out to a different output than the main-out track
+  - you must set the `Cue Out` of the Master-track to a different output than the  `Main Out` track
   
-  - you must activate pre-listen mode (instead of solo-mode) in the main-out track
+  - you must set the Master-track to  `Cue Mode`  (instead of `Solo Mode` )
 
 ## Jog wheels
 
