@@ -40,6 +40,12 @@ To use this script, simply copy the contents into a folder named "KorgKaossDJ" w
 
 # Button assignments:
 
+## 3 buttons above jog-wheel (no light)
+
+| <mark>LEFT</mark> | <mark>MIDDLE</mark>                                | <mark>RIGHT</mark> |
+|:-----------------:|:--------------------------------------------------:|:------------------:|
+| pitch down        | change jog-wheel mode   (see jog-wheel assignment) | pitch up           |
+
 ## Loop buttons (loop-light on)
 
 | <mark>LEFT</mark>        | <mark>MIDDLE</mark>                            | <mark>RIGHT</mark>        |
@@ -94,11 +100,11 @@ The touchpad-controls are sensitive ONLY if the **FX-button** of the correspondi
 
 | <mark><u>LOOPING OFF</u></mark>    | <mark>NORMAL</mark>                         | <mark>WITH SHIFT</mark>                |
 | ---------------------------------- | ------------------------------------------- | -------------------------------------- |
-| <mark>**LIGHT ON**</mark>          | scrobble track (e.g. move playing position) | move track start marker (coarse scale) |
-| <mark>**LIGHT OFF**</mark>         | move track start marker (fine scale)        | move track start marker (coarse scale) |
+| <mark>**CENTER LIGHT ON**</mark>   | scrobble track (e.g. move playing position) | move track start marker (coarse scale) |
+| <mark>**CENTER LIGHT OFF**</mark>  | move track start marker (fine scale)        | move track start marker (coarse scale) |
 | <mark>**<u>LOOPING ON</u>**</mark> |                                             |                                        |
-| <mark>**LIGHT ON**</mark>          | scrobble track (e.g. move playing position) | move loop position (coarse scale)      |
-| <mark>**LIGHT OFF**</mark>         | move loop position (fine scale)             | move loop position (coarse scale)      |
+| <mark>**CENTER LIGHT ON**</mark>   | scrobble track (e.g. move playing position) | move loop position (coarse scale)      |
+| <mark>**CENTER LIGHT OFF**</mark>  | move loop position (fine scale)             | move loop position (coarse scale)      |
 
 - moving the start-marker of a playing track will also adjust the current playing position!
 

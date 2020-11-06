@@ -32,7 +32,6 @@ class ScrubComponent(BaseComponent):
         self._scrub_on_off(value)
 
     def _scrub_position_listener(self, value):
-        self._parent.show_message('scrubbing... ' + str(value))
         self._scrub_position(value, self._increment_scrub)
 
 
@@ -41,20 +40,22 @@ class ScrubComponent(BaseComponent):
         if current_clip != None:
             if value == 127:
                 self.scrub_position = current_clip.playing_position
-                self._parent.show_message('scrub START')
             if value == 0:
                 current_clip.stop_scrub()
-                self._parent.show_message('scrub STOP')
 
     def _scrub_position(self, value, increment):
         current_clip = self.get_current_clip()
         if current_clip != None:
-            if value > 65:
-                self.scrub_position -= increment
-                current_clip.scrub(self.scrub_position)
+            if current_clip.warping:
+                if value > 65:
+                    self.scrub_position -= increment
+                    current_clip.scrub(self.scrub_position)
+                else:
+                    self.scrub_position += increment
+                    current_clip.scrub(self.scrub_position)
             else:
-                self.scrub_position += increment
-                current_clip.scrub(self.scrub_position)
+                self._parent.show_message(str(current_clip.playing_position))
+                current_clip.start_marker += 1
 
     def move_position(self, value, increment):
         current_clip = self.get_current_clip()

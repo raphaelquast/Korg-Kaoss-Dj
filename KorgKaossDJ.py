@@ -97,9 +97,21 @@ class KorgKaossDJ(ControlSurface):
         self._left_A_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_LEFT, 14)
         self._right_B_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 14)
 
-
         self._left_shift_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_LEFT, 26, name='Shift_Button', resource_type=PrioritizedResource)
         self._right_shift_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 26, name='Shift_Button', resource_type=PrioritizedResource)
+
+        self._left_sync_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_LEFT, 29)
+        self._right_sync_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 29)
+
+        self._left_cue_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_LEFT, 30)
+        self._right_cue_button = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 30)
+
+        self._left_sync_button_shift = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_LEFT, 47)
+        self._right_sync_button_shift = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 47)
+
+        self._left_cue_button_shift = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_LEFT, 48)
+        self._right_cue_button_shift = ButtonElement(True, MIDI_NOTE_TYPE, CHANNEL_RIGHT, 48)
+
 
 
         for i in range(3):
@@ -113,6 +125,10 @@ class KorgKaossDJ(ControlSurface):
                         ButtonElement(True, MIDI_NOTE_TYPE, channel, 18 + i))
                 setattr(self, side + '_hotcue_' + str(i + 1) + '_shift',
                         ButtonElement(True, MIDI_NOTE_TYPE, channel, 43 + i))
+                setattr(self, side + '_nolight_' + str(i + 1),
+                        ButtonElement(True, MIDI_NOTE_TYPE, channel, 21 + i))
+
+
 
         # ------ ENCODER
 
@@ -237,6 +253,12 @@ class KorgKaossDJ(ControlSurface):
         self._fx_left.set_fx_on_off_button(self._left_fx_button)
         self._fx_left.set_gain_encoder_button(self._left_gain_encoder)
 
+        self._fx_left.set_warping_button(self._left_sync_button_shift)
+        self._fx_left.set_warp_mode_button(self._left_sync_button)
+
+        self._fx_left.set_pitch_down_button(self._left_nolight_1)
+        self._fx_left.set_pitch_up_button(self._left_nolight_3)
+
         self._fx_right = FXComponent(self, assign_track=RIGHT_STRIP_ID)
         self._fx_right.set_touchpad_x_button(self._touchpad_x_encoder)
         self._fx_right.set_touchpad_y_button(self._touchpad_y_encoder)
@@ -244,6 +266,10 @@ class KorgKaossDJ(ControlSurface):
         self._fx_right.set_touchpad_y_shift_button(self._touchpad_y_encoder_shift)
         self._fx_right.set_fx_on_off_button(self._right_fx_button)
         self._fx_right.set_gain_encoder_button(self._right_gain_encoder)
+
+        self._fx_right.set_warping_button(self._right_sync_button_shift)
+        self._fx_right.set_warp_mode_button(self._right_sync_button)
+
 
 
 
